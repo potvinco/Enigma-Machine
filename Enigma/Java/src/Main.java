@@ -4,7 +4,7 @@ import enigma.lib.InvalidKeyException;
 import enigma.lib.InvalidKeyItemException;
 import enigma.lib.Key;
 import enigma.lib.KeyItem;
-import enigma.lib.Machine;
+import enigma.lib.Engine;
 import enigma.lib.Math;
 import enigma.lib.Reflector;
 import enigma.lib.Rotor;
@@ -20,14 +20,14 @@ public class Main {
 		  
 		  return returnValue;
 	}
-	private static void displayData(Machine engine) {
+	private static void displayData(Engine engine) {
 		System.out.println("RF: " + engine.getReflector().getSerie().toString(0));
 		for(int i = engine.getRotors().length-1 ;i >= 0; i--) {
 			System.out.println("R"+ (i+1) + ": " + engine.getRotors()[i].getSeries()[1].toString(engine.getRotors()[i].getOffset()));
 			System.out.println("R"+ (i+1) + ": " + engine.getRotors()[i].getSeries()[0].toString(engine.getRotors()[i].getOffset()));
 		}
 	}
-	private static void compareValues(Machine engine) {
+	private static void compareValues(Engine engine) {
 		
 		int[] m = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,6,7,8,9,13,14,15,16,17,18,19,20,21,22,10,9,8,7,6,5,4,3,2,1,0};
 		int[] e = new int[m.length];
@@ -41,31 +41,18 @@ public class Main {
 		//decrypt e
 		for(int i=0;i<e.length;i++) {
 			m1[i] = engine.encrypt(e[i]);
-		}
-		
+		}		
 		//display results
-		System.out.println("m: " + arrayToString(m));
-		System.out.println("e: " + arrayToString(e));
+		System.out.println("m : " + arrayToString(m));
+		System.out.println("e : " + arrayToString(e));
 		System.out.println("m1: " + arrayToString(m1));
-		
-//		System.out.println("encrypt 'a': " + indexIn);
-//		indexIn = engine.encrypt(indexIn);
-//		System.out.println("obtain : " + indexIn);
-//		System.out.println("");
-//		
-//		//decrypt
-//		System.out.println("decrypt: " + indexIn);
-//		indexIn = engine.encrypt(indexIn);
-//		System.out.println("obtain : " + indexIn);
-//		System.out.println("");
-//		System.out.println("");
-		
+	
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			Machine engine = new Machine();
+			Engine engine = new Engine();
 
 			//initialize with offsets
 			KeyItem key1 = new KeyItem(EnumRotors.Rotor3,EnumDirection.Left, 7);
@@ -74,37 +61,19 @@ public class Main {
 			
 			//load key
 			Key key = new Key(key1,key2,key3);
+//			Key key = new Key(key2,key1,key3);
+//			Key key = new Key(key3,key2,key1);
 			
 			engine.init(key);
 
-			Rotor rotor1 = engine.getRotors()[0];
-			Rotor rotor2 = engine.getRotors()[1];
-			Rotor rotor3 = engine.getRotors()[2];
-			Reflector reflector = engine.getReflector();
-			
-			//check that the rotate function works on rotors
-			System.out.println("");
-			displayData(engine);
-			compareValues(engine);
-			System.out.println("");
-			
-			System.out.println("");
-			rotor1.rotate();
-			System.out.println("rotated " + rotor1.getIdentifier() + " to the " + rotor1.getDirection());
-			displayData(engine);
-			compareValues(engine);
-			System.out.println("");
-						
-			System.out.println("");
-			rotor3.rotate();
-			System.out.println("rotated " + rotor3.getIdentifier() + " to the " + rotor3.getDirection());
-			displayData(engine);
-			compareValues(engine);
-			System.out.println("");
-			
-			
-			
-//			
+			for(int i=0;i<(3 * 25) + 1;i++) {
+				System.out.println("");
+				displayData(engine);
+				compareValues(engine);
+				engine.rotate();
+				System.out.println("");
+				System.out.println("");
+			}
 		}catch(InvalidKeyException ex) {
 			
 		}catch(InvalidKeyItemException ex) {

@@ -60,6 +60,9 @@ public class Rotor implements Rotatable, Serializable {
 	  this.setOffset(this.getOffset() + movement);
 	  this.setCounter(this.getCounter() + 1);	  
 	  
+
+		System.out.println("rotated " + this.getIdentifier() + " to the " + this.getDirection());
+	  
 	  //if full rotation, trigger onRotationCompletedEvent
 	  if(Math.Modulus(this.getCounter(),26) == 0) {
 		  for(IRotorEventListener listener : this._eventListeners){

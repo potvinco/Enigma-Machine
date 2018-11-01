@@ -45,4 +45,14 @@ public class Key implements Serializable {
 		  throw new InvalidKeyException("the items can not be null");
 	  } 
   }
+
+  public int getIndex(EnumRotors rotor) {
+	  for(int i = 0; i< this._keyItems.length;i++){
+		  if(this._keyItems[i].getIdentifier() == rotor)
+			  return i;
+	  }
+	  
+	  return -1;
+  }
+  
 } 
