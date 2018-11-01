@@ -14,10 +14,18 @@ public class Key implements Serializable {
   private KeyItem[] _keyItems = new KeyItem[3];
 
   //Constructors
-  protected Key( KeyItem[] items ) throws InvalidKeyException, InvalidKeyItemException {
+  public Key( KeyItem[] items ) throws InvalidKeyException, InvalidKeyItemException {
 	  this.setKeyItems(items);
   }
 
+  public Key( KeyItem key1, KeyItem key2, KeyItem key3 ) throws InvalidKeyException, InvalidKeyItemException {
+	  KeyItem[] keys = new KeyItem[3];
+	  keys[0] = key1;
+	  keys[1] = key2;
+	  keys[2] = key3;
+	  
+	  this.setKeyItems(keys);
+  }
   //Getters
   protected KeyItem[] getKeyItems() { 
 	  return this._keyItems; 	  

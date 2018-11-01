@@ -2,25 +2,20 @@ package enigma.lib;
 
 import java.io.Serializable;
 
-/**
- ** Class KeyItem
- *
- *this class is used only inside the machine
- **/
 public class KeyItem implements Serializable  { 
   /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 //Fields
-  private Rotor rotor;
-  private Direction direction;
-  private int offset;
+  private EnumRotors _identifier;
+  private EnumDirection _direction;
+  private int _offset;
 
   //Constructors
-  protected KeyItem(Rotor rotor, Direction direction, int initOffset)throws InvalidKeyItemException {
+  public KeyItem(EnumRotors rotor, EnumDirection direction, int initOffset)throws InvalidKeyItemException {
 	  try {
-		  this.setRotor(rotor);
+		  this.setIdentifier(rotor);
 		  this.setDirection(direction);
 		  this.setOffset(initOffset);
 	  }
@@ -30,26 +25,26 @@ public class KeyItem implements Serializable  {
   }
 
   //Getters
-  protected Rotor getRotor() { return this.rotor; } 
-  protected Direction getDirection() { return this.direction; } 
-  protected int getOffset() { return this.offset; } 
+  protected EnumRotors getIdentifier() { return this._identifier; } 
+  protected EnumDirection getDirection() { return this._direction; } 
+  protected int getOffset() { return this._offset; } 
 
   //Setters
-  private void setRotor(Rotor value) throws InvalidKeyItemException { 
-	  if(value != null)
-		  this.rotor = value; 
+  private void setIdentifier(EnumRotors identifier) throws InvalidKeyItemException { 
+	  if(identifier != null)
+		  this._identifier = identifier; 
 	  else
 		  throw new InvalidKeyItemException("The rotor is invalid");
   } 
-  private void setDirection(Direction value) throws InvalidKeyItemException  { 
+  private void setDirection(EnumDirection value) throws InvalidKeyItemException  { 
 	  if(value != null)
-		  this.direction = value; 
+		  this._direction = value; 
 	  else
 		  throw new InvalidKeyItemException("The direction is invalid");
 	  
   } 
   private void setOffset(int value) { 
-		  this.offset = value % 26; 
+		  this._offset = Math.Modulus(value, 26); 
   } 
 
 } 

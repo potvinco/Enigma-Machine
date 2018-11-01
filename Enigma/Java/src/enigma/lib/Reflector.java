@@ -11,17 +11,24 @@ public class Reflector implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 //Fields
-  private Serie serie;
+  private Series _series;
 
   //Constructors
-  protected Reflector(Serie value) {
-	  
+  protected Reflector(Series value) {
+	 this.setSerie(value);
   }
 
   //Getters
-  public Serie getSerie() { return this.serie; } 
+  public Series getSerie() { return this._series; } 
 
   //Setters
-  public void setSerie(Serie value) { this.serie = value; } 
+  public void setSerie(Series value) { this._series = value; } 
 
+  //Methods
+  public int getIndexOut(int indexIn) {
+	  //TODO: validate the value lineIndex
+	  //generate or handle IndexOutOfBound ex
+	  
+	  return Math.Modulus(indexIn + this._series.getValues()[indexIn], 26);
+  }
 } 
