@@ -2,14 +2,9 @@ package enigma.lib;
 
 import java.io.Serializable;
 
-/**
- ** Class Key
- **/
 public class Key implements Serializable { 
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
+	
 //Fields
   private KeyItem[] _keyItems = new KeyItem[3];
 
@@ -26,6 +21,7 @@ public class Key implements Serializable {
 	  
 	  this.setKeyItems(keys);
   }
+  
   //Getters
   protected KeyItem[] getKeyItems() { 
 	  return this._keyItems; 	  
@@ -46,12 +42,14 @@ public class Key implements Serializable {
 	  } 
   }
 
+  //methods
   public int getIndex(EnumRotors rotor) {
 	  for(int i = 0; i< this._keyItems.length;i++){
 		  if(this._keyItems[i].getIdentifier() == rotor)
 			  return i;
 	  }
 	  
+	  //return invalid index
 	  return -1;
   }
   

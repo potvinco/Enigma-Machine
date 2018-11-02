@@ -3,7 +3,7 @@ package enigma.lib;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Rotor implements Rotatable, Serializable { 
+public class Rotor implements Serializable { 
   private static final long serialVersionUID = 1L;
   
   //Fields
@@ -16,7 +16,7 @@ public class Rotor implements Rotatable, Serializable {
 
   //Constructors
   //Must provide a set of data and identify the rotor
-  public Rotor(Series[] series, EnumRotors identifier) {
+  protected Rotor(Series[] series, EnumRotors identifier) {
 	  this.setSeries(series);
 	  this.setIdentifier(identifier);
   }
@@ -30,8 +30,8 @@ public class Rotor implements Rotatable, Serializable {
 
   //Setters
   private void setSeries(Series[] series) { this._series = series; } 
-  protected void setOffset(int offset) { this._offset = offset;} 
-  protected void setCounter(int counter) {this._counter = counter;}  
+  protected void setOffset(int offset) { this._offset = offset % 26;} 
+  protected void setCounter(int counter) {this._counter = Math.Modulus(counter, 26);}  
   protected void setDirection(EnumDirection direction) {this._direction = direction;}
   public void setIdentifier(EnumRotors _identifier) { this._identifier = _identifier; }
 
@@ -44,24 +44,17 @@ public class Rotor implements Rotatable, Serializable {
 	  return Math.Modulus( indexIn + this._series[lineIndex].getValues()[offset], 26);
   }
   
-  public void init(KeyItem keyItem) {
+  protected void init(KeyItem keyItem) {
 	  this.setDirection(keyItem.getDirection());
 	  this.setOffset(keyItem.getOffset());
 	  this._counter = 0;
   }
   
-  public void rotate() {
-	  int movement = (1 * this._direction.getValue());
-	  /* 0 <= increment < 26
-	   * since there are only 26 positions,
-	   * get the current value, add the increment value (which can be negative)
-	   * take the result and apply modulus 26 to get an absolute position value
-	   */
-	  this.setOffset(this.getOffset() + movement);
-	  this.setCounter(this.getCounter() + 1);	  
-	  
+  protected void rotate(int increment) {
+	  int movement = (increment * this._direction.getValue());
 
-		System.out.println("rotated " + this.getIdentifier() + " to the " + this.getDirection());
+	  this.setOffset(this.getOffset() + movement);
+	  this.setCounter(this.getCounter() + increment);	  
 	  
 	  //if full rotation, trigger onRotationCompletedEvent
 	  if(Math.Modulus(this.getCounter(),26) == 0) {
@@ -97,4 +90,17 @@ public class Rotor implements Rotatable, Serializable {
 	}
   }
 	
+  @Override
+  public String toString() {
+
+	  String returnValue = "{ ";
+	  returnValue += "Identifier: " + this.getIdentifier() + ", ";
+	  returnValue += "Offset: " + this.getOffset() + ", ";
+	  returnValue += "Counter: " + this.getCounter() + ", ";
+	  returnValue += "Direction: " + this.getDirection();
+	  returnValue += " }";
+	  
+	  return returnValue;
+	  
+  }
 } 
