@@ -1,5 +1,5 @@
 package enigma.lib;
-
+import java.lang.Math.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,16 +40,17 @@ public class Rotor implements Serializable {
 	  //TODO: validate the value lineIndex
 	  //generate or handle IndexOutOfBound ex
 	  
-	  int offset = Math.Modulus(indexIn + this.getOffset() , 26);	  
+	  
+	  int offset =Math.Modulus(indexIn + this.getOffset() , 26);	
+	  int val = indexIn + this._series[lineIndex].getValues()[offset];
+	 
 	  return Math.Modulus( indexIn + this._series[lineIndex].getValues()[offset], 26);
   }
-  
   protected void init(KeyItem keyItem) {
 	  this.setDirection(keyItem.getDirection());
 	  this.setOffset(keyItem.getOffset());
 	  this._counter = 0;
   }
-  
   protected void rotate(int increment) {
 	  int movement = (increment * this._direction.getValue());
 
@@ -63,7 +64,6 @@ public class Rotor implements Serializable {
 		  }
 	  }
   };
-
   public void addEventListener(IRotorEventListener listener) {
 		try {
 			if (listener == null)
@@ -76,7 +76,6 @@ public class Rotor implements Serializable {
 			System.out.println(ex.getMessage());
 		}
 	}  
-
   public void removeEventListener(IRotorEventListener listener) {
 	try {
 		if (listener == null)
@@ -89,7 +88,6 @@ public class Rotor implements Serializable {
 		System.out.println(ex.getMessage());
 	}
   }
-	
   @Override
   public String toString() {
 

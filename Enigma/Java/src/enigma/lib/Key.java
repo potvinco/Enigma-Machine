@@ -9,11 +9,11 @@ public class Key implements Serializable {
   private KeyItem[] _keyItems = new KeyItem[3];
 
   //Constructors
-  public Key( KeyItem[] items ) throws InvalidKeyException, InvalidKeyItemException {
+  public Key( KeyItem[] items )  {
 	  this.setKeyItems(items);
   }
 
-  public Key( KeyItem key1, KeyItem key2, KeyItem key3 ) throws InvalidKeyException, InvalidKeyItemException {
+  public Key( KeyItem key1, KeyItem key2, KeyItem key3 )  {
 	  KeyItem[] keys = new KeyItem[3];
 	  keys[0] = key1;
 	  keys[1] = key2;
@@ -23,23 +23,23 @@ public class Key implements Serializable {
   }
   
   //Getters
-  protected KeyItem[] getKeyItems() { 
+  public KeyItem[] getKeyItems() { 
 	  return this._keyItems; 	  
   } 
 
   //Setters
-  private void setKeyItems(KeyItem[] items)  throws InvalidKeyException, InvalidKeyItemException {
-	  if(items!=null) {
-		  if(items.length==3) { 
+  private void setKeyItems(KeyItem[] items)   {
+	  if(items!=null) //{
+		  if(items.length==3) //{ 
 			  this._keyItems = items; 
-		  }
-		  else {
-			  throw new InvalidKeyException("items must have 3 elements");
-		  }
-	  }
-	  else {
-		  throw new InvalidKeyException("the items can not be null");
-	  } 
+//		  }
+//		  else {
+//			  throw new InvalidKeyException("items must have 3 elements");
+//		  }
+//	  }
+//	  else {
+//		  throw new InvalidKeyException("the items can not be null");
+//	  } 
   }
 
   //methods

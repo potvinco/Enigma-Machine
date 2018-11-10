@@ -52,17 +52,22 @@ public class Engine implements  Serializable, IRotorEventListener {
 	  for(int i=0;i< keys.length;i++) {
 		  switch(keys[i].getIdentifier()) {
 		  case Rotor1:
-			  this.getRotors()[0].setOffset(keys[i].getOffset());
+			  this.getRotors()[0].setOffset(0-keys[i].getOffset());
 			  this.getRotors()[0].setDirection(keys[i].getDirection());
+			  this.getRotors()[0].setCounter(0);
 			  break;
 		  case Rotor2:
-			  this.getRotors()[1].setOffset(keys[i].getOffset());
+			  this.getRotors()[1].setOffset(0-keys[i].getOffset());
 			  this.getRotors()[1].setDirection(keys[i].getDirection());
+			  this.getRotors()[1].setCounter(0);
 			  break;
 		  case Rotor3:
-			  this.getRotors()[2].setOffset(keys[i].getOffset());
+			  this.getRotors()[2].setOffset(0-keys[i].getOffset());
 			  this.getRotors()[2].setDirection(keys[i].getDirection());
-			  break;
+			  this.getRotors()[2].setCounter(0);
+			  break;		
+			default:
+				break;
 		  }
 	  }	  
   }
@@ -127,7 +132,8 @@ public class Engine implements  Serializable, IRotorEventListener {
   @Override
   public void onRotationCompleted(RotorEvent event)throws NullPointerException {
 	  try {
-		this._rotorIndex =  Math.Modulus(this.getRotorIndex(event.getRotor().getIdentifier()) + 1, this._rotors.length);
+		  
+		this._rotorIndex =  Math.Modulus(this.getRotorIndex(this.getKey().getKeyItems()[ Math.Modulus(this.getKey().getIndex(event.getRotor().getIdentifier()) + 1, this.getKey().getKeyItems().length)].getIdentifier()), this._rotors.length);
 		this.getRotors()[this._rotorIndex].rotate(1);
 	  }
 	  catch(NullPointerException ex) {

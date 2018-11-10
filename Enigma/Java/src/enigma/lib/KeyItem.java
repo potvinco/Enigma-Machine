@@ -13,21 +13,21 @@ public class KeyItem implements Serializable  {
   private int _offset;
 
   //Constructors
-  public KeyItem(EnumRotors rotor, EnumDirection direction, int initOffset)throws InvalidKeyItemException {
+  public KeyItem(EnumRotors rotor, EnumDirection direction, int initOffset) {
 	  try {
 		  this.setIdentifier(rotor);
 		  this.setDirection(direction);
 		  this.setOffset(initOffset);
 	  }
 	  catch(InvalidKeyItemException ex) {
-		  throw ex;
+		  
 	  }
   }
 
   //Getters
-  protected EnumRotors getIdentifier() { return this._identifier; } 
-  protected EnumDirection getDirection() { return this._direction; } 
-  protected int getOffset() { return this._offset; } 
+  public EnumRotors getIdentifier() { return this._identifier; } 
+  public EnumDirection getDirection() { return this._direction; } 
+  public int getOffset() { return this._offset; } 
 
   //Setters
   private void setIdentifier(EnumRotors identifier) throws InvalidKeyItemException { 
