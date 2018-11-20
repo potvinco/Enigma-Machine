@@ -156,9 +156,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		displayToConsole();
+		//displayToConsole();
+
+		Engine engine = new Engine();
+		//initialize with offsets as specified in the PDF
+//		KeyItem key1 = new KeyItem(EnumRotors.Rotor3,EnumDirection.Left, 7);
+//		KeyItem key2 = new KeyItem(EnumRotors.Rotor1,EnumDirection.Right, -6);
+//		KeyItem key3 = new KeyItem(EnumRotors.Rotor2,EnumDirection.Right, 5);
 		
-//		EnigmaMain ui = new EnigmaMain();
-//		ui.main(null);
+		KeyItem key1 = new KeyItem(EnumRotors.Rotor1,EnumDirection.Right, 0);
+		KeyItem key2 = new KeyItem(EnumRotors.Rotor2,EnumDirection.Right, 0);
+		KeyItem key3 = new KeyItem(EnumRotors.Rotor3,EnumDirection.Right, 0);
+		
+		displayPath(engine, 0);
+		EnigmaMain ui = new EnigmaMain();
+		ui.main(null);
 	}
 }

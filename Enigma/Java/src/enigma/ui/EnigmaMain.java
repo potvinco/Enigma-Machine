@@ -23,6 +23,8 @@ import enigma.lib.InvalidKeyItemException;
 import enigma.lib.Key;
 import enigma.lib.KeyItem;
 import enigma.ui.controls.JSeries;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class EnigmaMain {
 
@@ -45,14 +47,15 @@ public class EnigmaMain {
 	private JComboBox cboRotorDirection_0;
 	private JComboBox cboRotorDirection_1;
 	private JComboBox cboRotorDirection_2;
-	
-	KeyItem key1 = new KeyItem(EnumRotors.Rotor3,EnumDirection.Left, 7);
-	KeyItem key2 = new KeyItem(EnumRotors.Rotor1,EnumDirection.Right, -6);
-	KeyItem key3 = new KeyItem(EnumRotors.Rotor2,EnumDirection.Right, 5);
+
+	KeyItem key1 = new KeyItem(EnumRotors.Rotor3, EnumDirection.Left, 7);
+	KeyItem key2 = new KeyItem(EnumRotors.Rotor1, EnumDirection.Right, -6);
+	KeyItem key3 = new KeyItem(EnumRotors.Rotor2, EnumDirection.Right, 5);
 	Key key = new Key(key1, key2, key3);
-	
-	
+
 	private Engine engine = new Engine();
+	private JTextField txtEncryptAll;
+	private JTextField txtDecryptAll;
 
 	/**
 	 * Launch the application.
@@ -77,21 +80,21 @@ public class EnigmaMain {
 		initialize();
 		loadLists();
 
-			 key1 = new KeyItem(EnumRotors.Rotor3,EnumDirection.Left, 7);
-			 key2 = new KeyItem(EnumRotors.Rotor1,EnumDirection.Right, -6);
-			 key3 = new KeyItem(EnumRotors.Rotor2,EnumDirection.Right, 5);
+		key1 = new KeyItem(EnumRotors.Rotor3, EnumDirection.Left, 7);
+		key2 = new KeyItem(EnumRotors.Rotor1, EnumDirection.Right, -6);
+		key3 = new KeyItem(EnumRotors.Rotor2, EnumDirection.Right, 5);
 
-			// load key
-			// the order in which they are provided in the Key constructor
-			// indicates the ORDER of rotation
-			// try different combinations and check results
-			key = new Key(key1, key2, key3);
+		// load key
+		// the order in which they are provided in the Key constructor
+		// indicates the ORDER of rotation
+		// try different combinations and check results
+		key = new Key(key1, key2, key3);
 
-			// CONFIGURE the engine by providing a key
-			engine.init(key);
+		// CONFIGURE the engine by providing a key
+		engine.init(key);
 
-			this.displayRotors(engine);
-			this.displayKey(key);
+		this.displayRotors(engine);
+		this.displayKey(key);
 
 	}
 
@@ -146,24 +149,7 @@ public class EnigmaMain {
 		JButton btnConfigure = new JButton("Apply Key");
 		btnConfigure.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-
-				 key1 = new KeyItem((EnumRotors)cboRotorIdentifier_0.getSelectedItem(),(EnumDirection)cboRotorDirection_0.getSelectedItem(), Integer.parseInt( txtRotorOffset_0.getText()));
-				 key2 = new KeyItem((EnumRotors)cboRotorIdentifier_1.getSelectedItem(),(EnumDirection)cboRotorDirection_1.getSelectedItem(), Integer.parseInt( txtRotorOffset_1.getText()));
-				 key3 = new KeyItem((EnumRotors)cboRotorIdentifier_2.getSelectedItem(),(EnumDirection)cboRotorDirection_2.getSelectedItem(), Integer.parseInt( txtRotorOffset_2.getText()));
-
-				// load key
-				// the order in which they are provided in the Key constructor
-				// indicates the ORDER of rotation
-				// try different combinations and check results
-				key = new Key(key1, key2, key3);
-
-				// CONFIGURE the engine by providing a key
-				engine.init(key);
-				
-
-				displayRotors(engine);
-			
+				resetRotors();
 			}
 		});
 		btnConfigure.setBounds(603, 350, 97, 25);
@@ -255,34 +241,129 @@ public class EnigmaMain {
 		lblLetters.setBounds(20, 308, 56, 16);
 		frame.getContentPane().add(lblLetters);
 
-		textField_3 = new JTextField();
-		textField_3.setBounds(153, 508, 44, 22);
-		frame.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(88, 639, 603, 49);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
 
-		JLabel lblDecrypted = new JLabel("");
-		lblDecrypted.setBounds(491, 508, 56, 16);
-		frame.getContentPane().add(lblDecrypted);
-		
+		textField_3 = new JTextField();
+		textField_3.setForeground(Color.RED);
+		textField_3.setBounds(12, 13, 44, 22);
+		panel.add(textField_3);
+		textField_3.setColumns(1);
+
+		JButton btnEncrypt = new JButton("Encrypt");
+		btnEncrypt.setBounds(62, 12, 97, 25);
+		panel.add(btnEncrypt);
+
 		JLabel lblEncrypted = new JLabel("");
-		lblEncrypted.setBounds(314, 508, 56, 16);
-		frame.getContentPane().add(lblEncrypted);
+		lblEncrypted.setForeground(Color.BLUE);
+		lblEncrypted.setBounds(171, 13, 56, 16);
+		panel.add(lblEncrypted);
 
 		JButton btnDecrypt = new JButton("Decrypt");
-		btnDecrypt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index  = engine.encrypt(((int) lblEncrypted.getText().charAt(0)) - 97);
-				lblDecrypted.setText(Character.toString((char)(index + 97)));
+		btnDecrypt.setBounds(239, 12, 97, 25);
+		panel.add(btnDecrypt);
+
+		JLabel lblDecrypted = new JLabel("");
+		lblDecrypted.setBounds(348, 13, 56, 16);
+		panel.add(lblDecrypted);
+
+		JButton btnRotate = new JButton("Rotate");
+		btnRotate.setBounds(482, 12, 97, 25);
+		panel.add(btnRotate);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(91, 459, 708, 82);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+
+		txtEncryptAll = new JTextField();
+		txtEncryptAll.setBounds(12, 13, 574, 22);
+		panel_1.add(txtEncryptAll);
+		txtEncryptAll.setColumns(10);
+
+		JButton btnEncryptAll = new JButton("Encrypt");
+		btnEncryptAll.setBounds(598, 12, 97, 25);
+		panel_1.add(btnEncryptAll);
+
+		txtDecryptAll = new JTextField();
+		txtDecryptAll.setBounds(12, 48, 574, 22);
+		panel_1.add(txtDecryptAll);
+		txtDecryptAll.setColumns(10);
+
+		JButton btnDecryptAll = new JButton("Decrypt");
+		btnDecryptAll.setBounds(598, 47, 97, 25);
+		panel_1.add(btnDecryptAll);
+
+		JLabel lblEncryptDecrypt = new JLabel("Encrypt / Decrypt message (characters a-z)");
+		lblEncryptDecrypt.setBounds(88, 441, 708, 16);
+		frame.getContentPane().add(lblEncryptDecrypt);
+
+		JLabel lblUseThisSection = new JLabel("Use this section to test individual letters and rotation");
+		lblUseThisSection.setBounds(88, 569, 603, 16);
+		frame.getContentPane().add(lblUseThisSection);
+
+		JLabel lblTestEachLetter = new JLabel(
+				"For each letter provided in the string above, copy the character in the textbox. Click \"Encrypt\" ");
+		lblTestEachLetter.setVerticalAlignment(SwingConstants.TOP);
+		lblTestEachLetter.setBounds(88, 595, 631, 15);
+		frame.getContentPane().add(lblTestEachLetter);
+
+		JLabel lblAnddecryptTo = new JLabel(
+				"and \"Decrypt\" to validate the result. Click \"Rotate\" and repeat for the next letter.");
+		lblAnddecryptTo.setBounds(88, 610, 667, 16);
+		frame.getContentPane().add(lblAnddecryptTo);
+		btnDecryptAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resetRotors();
+
+				txtEncryptAll.setText("");
+
+				String val = txtDecryptAll.getText();
+				for (int i = 0; i < val.length(); i++) {
+					txtEncryptAll
+							.setText(txtEncryptAll.getText() + (char) (engine.encrypt((int) val.charAt(i) - 97) + 97));
+					engine.rotate();
+				}
+
+				resetRotors();
 			}
 		});
-		btnDecrypt.setBounds(382, 507, 97, 25);
-		frame.getContentPane().add(btnDecrypt);
-		
-		JButton btnEncrypt = new JButton("Encrypt");
+		btnEncryptAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resetRotors();
+
+				txtDecryptAll.setText("");
+
+				String val = txtEncryptAll.getText();
+				for (int i = 0; i < val.length(); i++) {
+					txtDecryptAll
+							.setText(txtDecryptAll.getText() + (char) (engine.encrypt((int) val.charAt(i) - 97) + 97));
+					engine.rotate();
+				}
+
+				resetRotors();
+			}
+		});
+		btnRotate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				engine.rotate();
+				displayRotors(engine);
+			}
+		});
+		btnDecrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = engine.encrypt(((int) lblEncrypted.getText().charAt(0)) - 97);
+				lblDecrypted.setText(Character.toString((char) (index + 97)));
+			}
+		});
 		btnEncrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				int indexIn = ((int) textField_3.getText().charAt(0)) - 97;
+				Letters.select(indexIn,Color.RED);
 
 				R1_1.select(indexIn, Color.RED);
 				indexIn = engine.getRotors()[0].getIndexOut(indexIn, 0);
@@ -307,26 +388,13 @@ public class EnigmaMain {
 				R1_2.select(indexIn, Color.blue);
 				indexIn = engine.getRotors()[0].getIndexOut(indexIn, 1);
 
-
-				Letters.select(indexIn, Color.blue);
+				Letters.getCells()[indexIn].setForeground(Color.BLUE);
 
 				lblEncrypted.setText(Character.toString((char) (indexIn + 97)));
 				lblDecrypted.setText("");
 			}
 		});
-		btnEncrypt.setBounds(209, 507, 97, 25);
-		frame.getContentPane().add(btnEncrypt);
 
-		JButton btnRotate = new JButton("Rotate");
-		btnRotate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				engine.rotate();
-				displayRotors(engine);
-			}
-		});
-		btnRotate.setBounds(848, 507, 97, 25);
-		frame.getContentPane().add(btnRotate);
-		
 	}
 
 	private void loadArray(JSeries series, int[] values, int startIndex) {
@@ -339,62 +407,50 @@ public class EnigmaMain {
 
 	private void loadLists() {
 		this.cboRotorIdentifier_0.removeAllItems();
-		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor1); 
-		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor2); 
-		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor3); 
+		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor1);
+		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor2);
+		this.cboRotorIdentifier_0.addItem(EnumRotors.Rotor3);
 		this.cboRotorIdentifier_1.removeAllItems();
-		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor1); 
-		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor2); 
-		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor3); 
+		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor1);
+		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor2);
+		this.cboRotorIdentifier_1.addItem(EnumRotors.Rotor3);
 		this.cboRotorIdentifier_2.removeAllItems();
-		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor1); 
-		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor2); 
-		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor3); 
-		
-		
+		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor1);
+		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor2);
+		this.cboRotorIdentifier_2.addItem(EnumRotors.Rotor3);
 
 		this.cboRotorDirection_0.removeAllItems();
-		this.cboRotorDirection_0.addItem(EnumDirection.Left); 
+		this.cboRotorDirection_0.addItem(EnumDirection.Left);
 		this.cboRotorDirection_0.addItem(EnumDirection.Right);
 		this.cboRotorDirection_1.removeAllItems();
-		this.cboRotorDirection_1.addItem(EnumDirection.Left); 
+		this.cboRotorDirection_1.addItem(EnumDirection.Left);
 		this.cboRotorDirection_1.addItem(EnumDirection.Right);
 		this.cboRotorDirection_2.removeAllItems();
-		this.cboRotorDirection_2.addItem(EnumDirection.Left); 
+		this.cboRotorDirection_2.addItem(EnumDirection.Left);
 		this.cboRotorDirection_2.addItem(EnumDirection.Right);
 
-		
-		
-//		this.getRotors()[0].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[0].setDirection(keys[i].getDirection());
-//				 
-//				  this.getRotors()[1].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[1].setDirection(keys[i].getDirection());
-//				 
-//				  this.getRotors()[2].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[2].setDirection(keys[i].getDirection());
-//				
-//		
-//		for(int i=0;i< keys.length;i++) {
-//			  switch(keys[i].getIdentifier()) {
-//			  case Rotor1:
-//				  this.getRotors()[0].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[0].setDirection(keys[i].getDirection());
-//				  break;
-//			  case Rotor2:
-//				  this.getRotors()[1].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[1].setDirection(keys[i].getDirection());
-//				  break;
-//			  case Rotor3:
-//				  this.getRotors()[2].setOffset(0-keys[i].getOffset());
-//				  this.getRotors()[2].setDirection(keys[i].getDirection());
-//				  break;		
-//				default:
-//					break;
-//			  }
-//		  }	  
 	}
-	
+
+	private void resetRotors() {
+		key1 = new KeyItem((EnumRotors) cboRotorIdentifier_0.getSelectedItem(),
+				(EnumDirection) cboRotorDirection_0.getSelectedItem(), Integer.parseInt(txtRotorOffset_0.getText()));
+		key2 = new KeyItem((EnumRotors) cboRotorIdentifier_1.getSelectedItem(),
+				(EnumDirection) cboRotorDirection_1.getSelectedItem(), Integer.parseInt(txtRotorOffset_1.getText()));
+		key3 = new KeyItem((EnumRotors) cboRotorIdentifier_2.getSelectedItem(),
+				(EnumDirection) cboRotorDirection_2.getSelectedItem(), Integer.parseInt(txtRotorOffset_2.getText()));
+
+		// load key
+		// the order in which they are provided in the Key constructor
+		// indicates the ORDER of rotation
+		// try different combinations and check results
+		key = new Key(key1, key2, key3);
+
+		// CONFIGURE the engine by providing a key
+		engine.init(key);
+
+		displayRotors(engine);
+	}
+
 	private void displayKey(Key key) {
 		this.cboRotorIdentifier_0.setSelectedItem(key.getKeyItems()[0].getIdentifier());
 		this.cboRotorDirection_0.setSelectedItem(key.getKeyItems()[0].getDirection());
@@ -408,7 +464,7 @@ public class EnigmaMain {
 		this.cboRotorDirection_2.setSelectedItem(key.getKeyItems()[2].getDirection());
 		this.txtRotorOffset_2.setText("" + key.getKeyItems()[2].getOffset());
 	}
-	
+
 	private void displayRotors(Engine engine) {
 		// R4
 		loadArray(R4, engine.getReflector().getSerie().getValues(), 0);
@@ -427,5 +483,4 @@ public class EnigmaMain {
 		loadArray(Letters, letters, 0);
 
 	}
-
 }

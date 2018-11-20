@@ -76,6 +76,7 @@ public class Rotor implements Serializable {
 			System.out.println(ex.getMessage());
 		}
 	}  
+  
   public void removeEventListener(IRotorEventListener listener) {
 	try {
 		if (listener == null)
@@ -88,6 +89,7 @@ public class Rotor implements Serializable {
 		System.out.println(ex.getMessage());
 	}
   }
+  
   @Override
   public String toString() {
 
@@ -99,6 +101,5 @@ public class Rotor implements Serializable {
 	  returnValue += " }";
 	  
 	  return returnValue;
-	  
   }
 } 
